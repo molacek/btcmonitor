@@ -1,7 +1,9 @@
 import os
 import json
 import time
+import sys
 from . import coinbase
+from . import svg
 from xdg import XDG_CACHE_HOME
 
 def main():
@@ -24,6 +26,9 @@ def main():
             btc_price_history = json.loads(f.read())
     else:
         btc_price_history = []
+
+    if len(btc_price_history) > 1:
+        svg.btc_graph(btc_price_history)
 
     sum_price = 0
     records = 0
@@ -59,5 +64,6 @@ def main():
         fgcolor = "Red"
 
     print("<txt><span fgcolor='{0:s}'>{1:d}  </span></txt>".format(fgcolor, btc_price))
+    print("<img>{0:s}</img>".format(str(XDG_CACHE_HOME / "btc_graph.svg")))
     if high_price is not None:
         print("<tool>AVG: {0:d}\nHigh: {1:d}\nLow: {2:d}</tool>".format(btc_average, high_price, low_price))

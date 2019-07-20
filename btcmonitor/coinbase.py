@@ -23,4 +23,3 @@ def get_btc_price():
     btc_price = int(btc_stats["price"].split('.')[0])
 
     return(True, btc_price)
-

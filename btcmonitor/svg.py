@@ -4,9 +4,6 @@ import time
 from xdg import XDG_CACHE_HOME
 
 
-def data_interval(data, t):
-    min_time = int(time.time()) - t
-    return([[t, v] for [t, v] in data if t > min_time])
 
 
 def scale(time_value):
@@ -15,9 +12,8 @@ def scale(time_value):
 
 
 def btc_graph(btc_price_history):
-    reduced_history = data_interval(btc_price_history, 2*60*60)
-    (t_min, t_max, v_min, v_max) = scale(reduced_history)
-    [t0, v0] = reduced_history[0]
+    (t_min, t_max, v_min, v_max) = scale(btc_price_history)
+    [t0, v0] = btc_price_history[0]
     dwg = svgwrite.Drawing(
         XDG_CACHE_HOME / 'btc_graph.svg',
         profile='tiny'
@@ -28,7 +24,24 @@ def btc_graph(btc_price_history):
     time_scale = (t_max - t_min) / width
     value_scale = (v_max - v_min) / height
 
-    for [t, v] in reduced_history[1:]:
+    # Draw grid
+    n = 0
+    while True:
+        grid_position = int(v_min/100) * 100 + n * 100
+        if grid_position >= v_min or grid_position <= v_max:
+            dwg.add(
+                dwg.line(
+                    (0, (v_max-grid_position)/value_scale),
+                    (width, (v_max-grid_position)/value_scale),
+                    stroke='green', stroke_width = 0.6
+                )
+            )
+        if grid_position > v_max:
+            break
+        n += 1
+
+    # Draw the graph
+    for [t, v] in btc_price_history[1:]:
         if (t - t0) < 300:
             dwg.add(
                 dwg.line(

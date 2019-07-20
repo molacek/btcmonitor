@@ -6,6 +6,12 @@ from . import coinbase
 from . import svg
 from xdg import XDG_CACHE_HOME
 
+
+def data_interval(data, t):
+    min_time = int(time.time()) - t
+    return([[t, v] for [t, v] in data if t > min_time])
+
+
 def main():
 
     (status, result) = coinbase.get_btc_price()
@@ -23,7 +29,7 @@ def main():
     history_file = XDG_CACHE_HOME / 'btc_price_history.json'
     if os.path.isfile(history_file):
         with open(history_file, 'r') as f:
-            btc_price_history = json.loads(f.read())
+            btc_price_history = data_interval(json.loads(f.read()), 2*60*60)
     else:
         btc_price_history = []
 
@@ -36,17 +42,16 @@ def main():
     low_price = None
     actual_ts = int(time.time())
     for ts, price in btc_price_history:
-        if actual_ts - 3600 * 24 < ts:
-            sum_price += price
-            records += 1
-            if not high_price:
-                 high_price = price
-            elif price > high_price:
-                 high_price = price
-            if not low_price:
-                 low_price = price
-            elif price < low_price:
-                 low_price = price
+        sum_price += price
+        records += 1
+        if not high_price:
+             high_price = price
+        elif price > high_price:
+             high_price = price
+        if not low_price:
+             low_price = price
+        elif price < low_price:
+             low_price = price
 
     btc_price_history.append((actual_ts, btc_price))
 

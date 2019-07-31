@@ -29,7 +29,7 @@ def main():
     history_file = XDG_CACHE_HOME / 'btc_price_history.json'
     if os.path.isfile(history_file):
         with open(history_file, 'r') as f:
-            btc_price_history = data_interval(json.loads(f.read()), 2*60*60)
+            btc_price_history = data_interval(json.loads(f.read()), 8*60*60)
     else:
         btc_price_history = []
 
@@ -66,9 +66,9 @@ def main():
     if btc_average <= btc_price:
         fgcolor = "Green"
     else:
-        fgcolor = "Red"
+        fgcolor = "#b30000"
 
-    print("<txt><span fgcolor='{0:s}'>{1:d}  </span></txt>".format(fgcolor, btc_price))
+    print("<txt><span fgcolor='{0:s}'> {1:d} </span></txt>".format(fgcolor, btc_price))
     print("<img>{0:s}</img>".format(str(XDG_CACHE_HOME / "btc_graph.svg")))
     if high_price is not None:
         print("<tool>AVG: {0:d}\nHigh: {1:d}\nLow: {2:d}</tool>".format(btc_average, high_price, low_price))

@@ -5,7 +5,7 @@ with open("README.md", 'r') as fh:
 
 setuptools.setup(
     name = "btcmonitor",
-    version = "0.0.2",
+    version = "0.0.3",
     author = "Lukáš Moláček",
     author_email = "lukas@molacek.net",
     packages = setuptools.find_packages(),

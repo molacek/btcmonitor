@@ -7,6 +7,7 @@ import json
 OK = 0
 OFFLINE = 1
 SERVER_ERROR = 2
+PARSE_ERROR = 3
 
 def get_btc_price():
     url = "https://api.pro.coinbase.com/products/btc-usd/ticker"
@@ -19,7 +20,10 @@ def get_btc_price():
     if response.status_code >= 500:
         return(False, SERVER_ERROR )
 
-    btc_stats = response.json()
-    btc_price = int(btc_stats["price"].split('.')[0])
+    try:
+        btc_stats = response.json()
+        btc_price = int(btc_stats["price"].split('.')[0])
+    except:
+        return(False, PARSE_ERROR)
 
     return(True, btc_price)

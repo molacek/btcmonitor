@@ -20,6 +20,8 @@ def main():
             print("<txt><span fgcolor='Gray'>Offline</span></txt>")
         elif result == coinbase.SERVER_ERROR:
             print("<txt><span fgcolor='Gray'>Server error</span></txt>")
+        elif result == coinbase.PARSE_ERROR:
+            print("<txt><span fgcolor='Gray'>Parse error</span></txt>")
         else:
             print("<txt><span fgcolor='Gray'>Unknown error</span></txt>")
         return

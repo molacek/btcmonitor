@@ -1,7 +1,6 @@
 import os
 import json
 import time
-import sys
 from . import coinbase
 from . import svg
 from xdg import XDG_CACHE_HOME
@@ -47,13 +46,13 @@ def main():
         sum_price += price
         records += 1
         if not high_price:
-             high_price = price
+            high_price = price
         elif price > high_price:
-             high_price = price
+            high_price = price
         if not low_price:
-             low_price = price
+            low_price = price
         elif price < low_price:
-             low_price = price
+            low_price = price
 
     btc_price_history.append((actual_ts, btc_price))
 
@@ -70,7 +69,12 @@ def main():
     else:
         fgcolor = "#b30000"
 
-    print("<txt><span fgcolor='{0:s}'> {1:d} </span></txt>".format(fgcolor, btc_price))
-    print("<img>{0:s}</img>".format(str(XDG_CACHE_HOME / "btc_graph.svg")))
+    print("<click>xdg-open \"https://cryptowat.ch/"
+          "markets/coinbase-pro/btc/usd\"</click>")
+    print("<txt><span fgcolor='{0:s}'> {1:d} </span>"
+          "</txt>".format(fgcolor, btc_price))
+    print("<img>{0:s}</img>".format(
+        str(XDG_CACHE_HOME / "btc_graph.svg")))
     if high_price is not None:
-        print("<tool>AVG: {0:d}\nHigh: {1:d}\nLow: {2:d}</tool>".format(btc_average, high_price, low_price))
+        print("<tool>AVG: {0:d}\nHigh: {1:d}\nLow: {2:d}"
+              "</tool>".format(btc_average, high_price, low_price))

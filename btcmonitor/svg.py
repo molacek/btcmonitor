@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 import svgwrite
-import time
 from xdg import XDG_CACHE_HOME
-
-
 
 
 def scale(time_value):
@@ -19,7 +16,7 @@ def btc_graph(btc_price_history):
         XDG_CACHE_HOME / 'btc_graph.svg',
         profile='tiny'
     )
-    height = 18 
+    height = 18
     width = 3 * 24
 
     time_scale = (t_max - t_min) / width
@@ -27,7 +24,6 @@ def btc_graph(btc_price_history):
         value_scale = 5 / height
     else:
         value_scale = (v_max - v_min) / height
-
 
     # Draw grid
     # Values
@@ -39,7 +35,7 @@ def btc_graph(btc_price_history):
                 dwg.line(
                     (0, (v_max-grid_position)/value_scale),
                     (width, (v_max-grid_position)/value_scale),
-                    stroke='gray', stroke_width = 1
+                    stroke='gray', stroke_width=1
                 )
             )
         if grid_position > v_max:
@@ -55,7 +51,7 @@ def btc_graph(btc_price_history):
                 dwg.line(
                     ((grid_position-t_min)/time_scale, 0),
                     ((grid_position-t_min)/time_scale, height),
-                    stroke='gray', stroke_width = 1
+                    stroke='gray', stroke_width=1
                 )
             )
         if grid_position > t_max:

@@ -30,7 +30,7 @@ def main():
     history_file = XDG_CACHE_HOME / 'btc_price_history.json'
     if os.path.isfile(history_file):
         with open(history_file, 'r') as f:
-            btc_price_history = data_interval(json.loads(f.read()), 8*60*60)
+            btc_price_history = data_interval(json.loads(f.read()), 24*60*60)
     else:
         btc_price_history = []
 
